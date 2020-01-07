@@ -1,0 +1,45 @@
+version: '3'  
+services:  
+  awdi:
+    image: wordpress
+    depends_on:
+      - awdi_db
+    volumes:
+      - ./wordpress:/var/www/html
+    ports:
+      - 80:80
+
+
+  awdi_db:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+
+  awdi_toolbox:
+    build: ./docker/wordpress/toolbox/
+    volumes:
+      - ./wordpress:/var/www/wordpress
+    working_dir: /var/www/wordpress
+    depends_on:
+      - awdi_db
+    environment:
+      WORDPRESS_LOCALE: fr_FR
+      WORDPRESS_DB_HOST: awdi_db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_WEBSITE_TITLE: "My blog"
+      WORDPRESS_WEBSITE_URL: "http://localhost"
+      WORDPRESS_WEBSITE_URL_WITHOUT_HTTP: "localhost"
+      WORDPRESS_WEBSITE_POST_URL_STRUCTURE: "/%year%/%monthnum%/%day%/%postname%/"
+      WORDPRESS_ADMIN_USER: "admin"
+      WORDPRESS_ADMIN_PASSWORD: "admin"
+      WORDPRESS_ADMIN_EMAIL: "test@example.com"
+
+
