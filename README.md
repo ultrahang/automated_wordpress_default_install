@@ -48,11 +48,11 @@ It can be modified in case more options needs to be changed by the wp-cli or the
         $(WP_CLI) rewrite structure $(WORDPRESS_WEBSITE_POST_URL_STRUCTURE)
         $(WP_CLI) plugin install gutenberg --activate
         
-Usage:
+# Usage:
 
 Clone the git repositpory and type:
 
-make wordpress_install  
+- make wordpress_install  
 
 This command will install the wordpress and mysql containers and also creates the intermin configuration container and executes the configuration tasks.
 As the result there will be three containers:
@@ -62,14 +62,22 @@ As the result there will be three containers:
 
 In case the wordpress containers (awdi and awdi_db) need to be reinitialized then type:
 
-make wordpress_reinstall
+- make wordpress_reinstall
 
 This command will erase the database and the wordpress files and re-create the awdi and awdi_db containers and reconfigure the wordpress installation using the existing awdi_toolbox container.
 
 To clean up all the three containers type:
 
-make clean
+- make clean
 
+If there is any modification made on the docker-compose.yml or on the Makefile for changing options and/or adding/removing parameters always re-create the toolbox itself by running:
+
+- make clean
+- make wordpress_install
+
+# Troubleshooting
+
+In case any error occurs repeate the command again. There are cases when the synchronization between the file and database operations are not in a perfect shape between the docker containers and re-running the command usually solves the issue without any modification on anything.
 
 
 
